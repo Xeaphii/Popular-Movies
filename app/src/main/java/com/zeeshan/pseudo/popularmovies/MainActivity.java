@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Resp length is "+response.length(),Toast.LENGTH_LONG).show();
 
                         JSONObject jsonObj = null;
+                        
                         JSONArray jsonArray = null;
 
                         try {
