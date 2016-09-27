@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Created by Pseudo on 9/26/2016.
  */
-  class MyAdapter extends BaseAdapter {
+class MyAdapter extends BaseAdapter {
     private final List<Item> mItems = new ArrayList<Item>();
     private final LayoutInflater mInflater;
     private Context mContext;
@@ -59,9 +59,13 @@ import java.util.List;
                                 JSONObject explrObject = jsonArray.getJSONObject(i);
                                 String title = explrObject.getString("title");
                                 String poster_path = explrObject.getString("poster_path");
+                                String original_title = explrObject.getString("original_title");
+                                String release_date = explrObject.getString("release_date");
+                                String overview = explrObject.getString("overview");
+                                String vote_average = explrObject.getString("vote_average");
 
-                                mItems.add(new Item(title,   "http://image.tmdb.org/t/p/w185//"+    poster_path));
-                                //Toast.makeText(mContext, "http://image.tmdb.org/t/p/w185//"+    poster_path, Toast.LENGTH_LONG).show();
+                                mItems.add(new Item(title, "http://image.tmdb.org/t/p/w185//" + poster_path, original_title, overview, vote_average, release_date));
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -72,12 +76,11 @@ import java.util.List;
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(mContext,"Failed to Load data",Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Failed to Load data", Toast.LENGTH_LONG).show();
             }
         });
 // Add the request to the RequestQueue.
         queue.add(stringRequest);
-
 
 
     }
@@ -94,7 +97,7 @@ import java.util.List;
 
     @Override
     public long getItemId(int i) {
-        return  Long.valueOf(i);
+        return Long.valueOf(i);
     }
 
     @Override
@@ -113,24 +116,31 @@ import java.util.List;
         name = (TextView) v.getTag(R.id.text);
 
 
-
         Item item = getItem(i);
 
         //picture.setImageResource(item.drawableId);
         Picasso.with(mContext).load(item.url).into(picture);
 
-        name.setText(item.name);
+        name.setText(item.title);
 
         return v;
     }
 
     private static class Item {
-        public final String name;
+        public final String title;
         public final String url;
+        public final String orig_title;
+        public final String movie_plot;
+        public final String movie_rating;
+        public final String release_date;
 
-        Item(String name, String URL) {
-            this.name = name;
+        Item(String Title, String URL, String Orig_title, String Movie_plot, String Movie_rating, String Release_date) {
+            this.title = Title;
             this.url = URL;
+            this.orig_title = Orig_title;
+            this.movie_plot = Movie_plot;
+            this.movie_rating = Movie_rating;
+            this.release_date = Release_date;
         }
     }
 }
